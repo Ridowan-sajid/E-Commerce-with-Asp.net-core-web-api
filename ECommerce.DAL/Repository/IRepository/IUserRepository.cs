@@ -11,6 +11,7 @@ namespace ECommerce.DAL.Repository.IRepository
     public interface IUserRepository:IRepository<ApplicationUser>
     {
         Task<RegisterCustomerDto> Register(RegisterCustomerDto registerDto);
+        Task<string> Login(UserLoginDto registerDto);
 
     }
 }

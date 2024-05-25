@@ -14,8 +14,8 @@ namespace ECommerce.Models.EntityModels
         public string? Images { get; set; }
         public int? Price { get; set; }
         public int? InventoryLevel { get; set; }
-        public int? Category { get; set; }
-        public int? Color { get; set; }
-        public int? Size { get; set; }
+        public string? Category { get; set; }
+        public string? Color { get; set; }
+        public string? Size { get; set; }
     }
 }

@@ -11,18 +11,17 @@ namespace E_Commerce.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserRepository _userRepository;
-        public UserController(UserManager<ApplicationUser> userManager,IUserRepository userRepository)
+        public UserController(IUserRepository userRepository)
         {
-            _userManager = userManager;
             _userRepository = userRepository;
         }
 
         [HttpPost]
+        [Route("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterCustomerDto registerDto)
         {
-            var response = _userRepository.Register(registerDto);
+            var response = await _userRepository.Register(registerDto);
 
             if (response != null)
             {
@@ -31,6 +30,22 @@ namespace E_Commerce.Controllers
             else
             {
                 return BadRequest("There was something wrong during the registration process.");
+            }
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginDto login)
+        {
+            var response = await _userRepository.Login(login);
+
+            if (response!=null)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest("There is something wrong.");
             }
         }
 

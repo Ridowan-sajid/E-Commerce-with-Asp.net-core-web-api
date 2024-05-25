@@ -12,6 +12,7 @@ namespace ECommerce.Models.EntityModels
         public string UserId { get; set; }
         public Guid ProductId { get; set; }
         public string ShippingAddress { get; set; }
+        public string Status { get; set; }
         public int Quantity { get; set; }
         public int Price { get; set; }
 

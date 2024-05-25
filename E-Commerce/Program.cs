@@ -20,6 +20,8 @@ builder.Services.AddSwaggerGen();
 
 //Add DI  
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 
 //Add Identity services

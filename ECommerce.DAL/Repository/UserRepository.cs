@@ -14,12 +14,41 @@ namespace ECommerce.DAL.Repository
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITokenRepository _token;
 
-        public UserRepository(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager) : base(dbContext)
+
+        public UserRepository(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, ITokenRepository token) : base(dbContext)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _token = token;
         }
+
+        public async Task<string> Login(UserLoginDto login)
+        {
+           
+            var user = await _userManager.FindByEmailAsync(login.Email);
+            if (user != null)
+            {
+                var checkPassword = await _userManager.CheckPasswordAsync(user, login.Password);
+                if (checkPassword)
+                {
+                    //Get Roles of the user
+                    var roles = await _userManager.GetRolesAsync(user);
+                    if (roles != null)
+                    {
+                        var jwtToken = _token.CreateJWTToken(user, roles.ToList());
+                        return jwtToken;
+                    }
+                }
+
+            }
+            return null;
+            
+            //return BadRequest("Something is wrong");
+            
+        }
+
         public async Task<RegisterCustomerDto> Register(RegisterCustomerDto registerDto)
         {
             var applicationUser = new ApplicationUser
@@ -44,19 +73,15 @@ namespace ECommerce.DAL.Repository
                     if (identityResult.Succeeded)
                     {
                         return registerDto;
-                        //return Ok("User registered successfully!");
                     }
                 }
                 return registerDto;
-                //return Ok("User registered successfully!");
             }
             else
             {
                 return null;
             }
 
-             
-            //return BadRequest("There was something wrong during the registration process.");
         }
     }
 }
