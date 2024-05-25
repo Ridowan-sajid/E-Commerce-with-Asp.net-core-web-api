@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Commerce", "E-Commerce\E-Commerce.csproj", "{19ABC764-D5CD-4AD6-AB39-14101A779CBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Commerce", "E-Commerce\E-Commerce.csproj", "{19ABC764-D5CD-4AD6-AB39-14101A779CBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Models", "ECommerce.Models\ECommerce.Models.csproj", "{2B466C39-D6CD-4BE0-B504-FF0E2239BA3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Models", "ECommerce.Models\ECommerce.Models.csproj", "{2B466C39-D6CD-4BE0-B504-FF0E2239BA3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.DAL", "ECommerce.DAL\ECommerce.DAL.csproj", "{C426E496-0B81-4377-84CD-8A1B07FABDCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.DAL", "ECommerce.DAL\ECommerce.DAL.csproj", "{C426E496-0B81-4377-84CD-8A1B07FABDCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.BLL", "ECommerce.BLL\ECommerce.BLL.csproj", "{95CF8352-0661-49F7-8A3E-B65D2B1F3288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C426E496-0B81-4377-84CD-8A1B07FABDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C426E496-0B81-4377-84CD-8A1B07FABDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C426E496-0B81-4377-84CD-8A1B07FABDCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95CF8352-0661-49F7-8A3E-B65D2B1F3288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95CF8352-0661-49F7-8A3E-B65D2B1F3288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95CF8352-0661-49F7-8A3E-B65D2B1F3288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95CF8352-0661-49F7-8A3E-B65D2B1F3288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
