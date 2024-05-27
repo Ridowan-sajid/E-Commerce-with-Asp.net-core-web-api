@@ -17,5 +17,7 @@ namespace ECommerce.Models.EntityModels
         public string? Category { get; set; }
         public string? Color { get; set; }
         public string? Size { get; set; }
+        public ICollection<Order>? Orders { get; set; } = new List<Order>();//So that when we try to create Product we dont need to create order.
+
     }
 }

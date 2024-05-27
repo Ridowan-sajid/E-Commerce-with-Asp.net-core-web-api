@@ -19,6 +19,12 @@ namespace ECommerce.DAL.Repository
             _context = dbContext;
             //_dbSet = _context.Set<Product>();
         }
+        public async Task<IEnumerable<Order>> GetAllWithUserAndProduct()
+        {
+            var orders = await _context.Orders.Include(o => o.User).Include(o => o.Product).ToListAsync();
+            return orders;
+           
+        }
 
         public async Task<Order> Update(Order order)
         {

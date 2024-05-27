@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection.Emit;
 
 namespace ECommerce.Models.EntityModels
 {
@@ -27,25 +28,45 @@ namespace ECommerce.Models.EntityModels
         //        optionsBuilder.UseSqlServer(connectionString);
         //    }
         //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
 
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
+            base.OnConfiguring(optionsBuilder);
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // Configure relationships
+            /////
             builder.Entity<Order>()
                 .HasOne(o => o.User)
-                .WithMany(c => c.Orders)
+                .WithMany(u => u.Orders)
                 .HasForeignKey(o => o.UserId)
-                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Order>()
                 .HasOne(o => o.Product)
-                .WithMany()
+                .WithMany(p => p.Orders)
                 .HasForeignKey(o => o.ProductId)
-                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Ensure this configuration allows Product to exist without Orders
+            builder.Entity<Product>()
+                .HasMany(p => p.Orders)
+                .WithOne(o => o.Product)
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            ///
+
 
 
             var adminRoleId = "4429e51e-67ba-4e02-83d7-ac6a655a5524";

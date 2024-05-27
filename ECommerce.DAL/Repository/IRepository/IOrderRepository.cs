@@ -11,5 +11,6 @@ namespace ECommerce.DAL.Repository.IRepository
     public interface IOrderRepository:IRepository<Order>
     {
         Task<Order> Update(Order product);
+        Task<IEnumerable<Order>> GetAllWithUserAndProduct();
     }
 }

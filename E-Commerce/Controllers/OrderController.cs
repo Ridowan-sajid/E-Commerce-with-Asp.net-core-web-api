@@ -32,10 +32,24 @@ namespace E_Commerce.Controllers
 
             return Ok(res);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAllOrder()
         {
             var res = await OrderRepository.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return Ok(res);
+
+        }
+
+        [HttpGet]
+        [Route("UserProduct")]
+        public async Task<IActionResult> GetAllOrderWithUserProduct()
+        {
+            var res = await OrderRepository.GetAllWithUserAndProduct();
             if (res == null)
             {
                 return NotFound();
