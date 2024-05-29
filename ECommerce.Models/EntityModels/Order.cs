@@ -18,9 +18,9 @@ namespace ECommerce.Models.EntityModels
         public int Price { get; set; }
 
         [ForeignKey("ApplicationUser")]
-        public string? UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("Product")]
-        public Guid? ProductId { get; set; }
+        public Guid ProductId { get; set; }
         [ValidateNever]
         public ApplicationUser User { get; set; }
         [ValidateNever]
