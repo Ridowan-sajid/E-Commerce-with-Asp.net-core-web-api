@@ -1,5 +1,6 @@
 ﻿//using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace ECommerce.Models.EntityModels
         public string? Address { get; set; }
         public string? PurchaseHistory { get; set; }
         public string? Preferences { get; set; }
-        public ICollection<Order>? Orders { get; set; } = new List<Order>(); //So that when we try to create user we dont need to create order.
+        [ValidateNever]
+        public ICollection<Order> Orders { get; set; } = new List<Order>(); //So that when we try to create user we dont need to create order.
 
     }
 }

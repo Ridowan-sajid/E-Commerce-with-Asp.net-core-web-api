@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -20,7 +21,9 @@ namespace ECommerce.Models.EntityModels
         public string? UserId { get; set; }
         [ForeignKey("Product")]
         public Guid? ProductId { get; set; }
-        public ApplicationUser? User { get; set; }
-        public Product? Product { get; set; }
+        [ValidateNever]
+        public ApplicationUser User { get; set; }
+        [ValidateNever]
+        public Product Product { get; set; }
     }
 }
