@@ -1,6 +1,8 @@
-﻿using ECommerce.DAL.Repository.IRepository;
+﻿using ECommerce.DAL.Repository;
+using ECommerce.DAL.Repository.IRepository;
 using ECommerce.Models.DtoModels;
 using ECommerce.Models.EntityModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +50,31 @@ namespace E_Commerce.Controllers
                 return BadRequest("There is something wrong.");
             }
         }
+        [HttpGet]
+        [Route("order")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var res = await _userRepository.GetAllOrder();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return Ok(res);
 
+        }
+        [HttpGet]
+        [Route("order/{Id}")]
+        [Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> GetAOrders(string Id)
+        {
+            var res = await _userRepository.GetAOrder(Id);
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return Ok(res);
+
+        }
     }
 }

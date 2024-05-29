@@ -2,6 +2,7 @@
 using ECommerce.Models.DtoModels;
 using ECommerce.Models.EntityModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,5 +84,21 @@ namespace ECommerce.DAL.Repository
             }
 
         }
+
+
+        public async Task<IEnumerable<ApplicationUser>> GetAllOrder()
+        {
+            var orders = await _dbContext.Users.Include(o => o.Orders).ToListAsync();
+            return orders;
+
+        }
+
+        public async Task<ApplicationUser> GetAOrder(string Id)
+        {
+            var order = await _dbContext.Users.Where(element => element.Id == Id).Include(o => o.Orders).FirstOrDefaultAsync();
+            return order;
+
+        }
+
     }
 }

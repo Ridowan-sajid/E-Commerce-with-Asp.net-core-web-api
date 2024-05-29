@@ -12,5 +12,6 @@ namespace ECommerce.DAL.Repository.IRepository
     {
         Task<Order> Update(Order product);
         Task<IEnumerable<Order>> GetAllWithUserAndProduct();
+        Task<Order> GetAOrderWithUserAndProduct(Guid Id);
     }
 }

@@ -12,6 +12,8 @@ namespace ECommerce.DAL.Repository.IRepository
     {
         Task<RegisterCustomerDto> Register(RegisterCustomerDto registerDto);
         Task<string> Login(UserLoginDto registerDto);
+        Task<ApplicationUser> GetAOrder(string Id);
+        Task<IEnumerable<ApplicationUser>> GetAllOrder();
 
     }
 }

@@ -26,6 +26,13 @@ namespace ECommerce.DAL.Repository
            
         }
 
+        public async Task<Order> GetAOrderWithUserAndProduct(Guid Id)
+        {
+            var order = await _context.Orders.Where(element=>element.Id==Id).Include(o => o.User).Include(o => o.Product).FirstOrDefaultAsync();
+            return order;
+
+        }
+
         public async Task<Order> Update(Order order)
         {
 
