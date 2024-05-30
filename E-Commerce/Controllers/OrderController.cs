@@ -78,10 +78,11 @@ namespace E_Commerce.Controllers
 
         [HttpGet]
         [Route("UserProduct/{id:Guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetOrderWithProductUserById(Guid id)
         {
-            var res = await OrderRepository.GetAOrderWithUserAndProduct(id);
+            //var res = await OrderRepository.GetAOrderWithUserAndProduct(id);
+            var res = await OrderRepository.GetByCondition(element=>element.Id==id,"User,Product");
             if (res == null)
             {
                 return NotFound();

@@ -9,9 +9,9 @@ namespace ECommerce.DAL.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> GetByCondition(Expression<Func<T, bool>> expression);
+        Task<T> GetByCondition(Expression<Func<T, bool>> expression,string? includeProperties=null);
         Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> GetListByCondition(Expression<Func<T, bool>> expression);
+        Task<IEnumerable<T>> GetListByCondition(Expression<Func<T, bool>> expression=null,string? includeProperties = null);
         Task<T> CreateAsync(T entity);
         Task<T> DeleteAsync(T entity);
 

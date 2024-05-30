@@ -68,7 +68,8 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> GetAOrders(string Id)
         {
-            var res = await _userRepository.GetAOrder(Id);
+            //var res = await _userRepository.GetAOrder(Id);
+            var res = await _userRepository.GetByCondition(element => element.Id == Id,"Orders");
             if (res == null)
             {
                 return NotFound();
