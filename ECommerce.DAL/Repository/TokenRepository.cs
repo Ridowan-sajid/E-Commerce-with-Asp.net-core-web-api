@@ -38,7 +38,7 @@ namespace ECommerce.DAL.Repository
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 Claims,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddDays(3),
                 signingCredentials: credentials
                 );
 

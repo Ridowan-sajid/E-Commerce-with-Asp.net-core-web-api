@@ -1,4 +1,5 @@
-﻿using ECommerce.DAL.Repository.IRepository;
+﻿using ECommerce.DAL.Repository;
+using ECommerce.DAL.Repository.IRepository;
 using ECommerce.Models.DtoModels;
 using ECommerce.Models.EntityModels;
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +12,11 @@ namespace E_Commerce.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderRepository OrderRepository;
-        public OrderController(IOrderRepository OrderRepository)
+        //private readonly IOrderRepository OrderRepository;
+        private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        public OrderController(IUnitOfWorkRepository unitOfWorkRepository)
         {
-            this.OrderRepository = OrderRepository;
+            this.unitOfWorkRepository = unitOfWorkRepository;
         }
 
         [HttpPost]
@@ -31,7 +33,7 @@ namespace E_Commerce.Controllers
                 ProductId = Order.ProductId,
                 UserId = Order.UserId,
             };
-            var res = await OrderRepository.CreateAsync(ord);
+            var res = await unitOfWorkRepository.orderRepository.CreateAsync(ord);
 
             return Ok(res);
         }
@@ -40,7 +42,7 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllOrder()
         {
-            var res = await OrderRepository.GetAll();
+            var res = await unitOfWorkRepository.orderRepository.GetAll();
             if (res == null)
             {
                 return NotFound();
@@ -54,7 +56,7 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllOrderWithUserProduct()
         {
-            var res = await OrderRepository.GetAllWithUserAndProduct();
+            var res = await unitOfWorkRepository.orderRepository.GetAllWithUserAndProduct();
             if (res == null)
             {
                 return NotFound();
@@ -67,7 +69,7 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetOrderById(Guid id)
         {
-            var res = await OrderRepository.GetByCondition(element => element.Id == id);
+            var res = await unitOfWorkRepository.orderRepository.GetByCondition(element => element.Id == id);
             if (res == null)
             {
                 return NotFound();
@@ -78,11 +80,11 @@ namespace E_Commerce.Controllers
 
         [HttpGet]
         [Route("UserProduct/{id:Guid}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetOrderWithProductUserById(Guid id)
         {
             //var res = await OrderRepository.GetAOrderWithUserAndProduct(id);
-            var res = await OrderRepository.GetByCondition(element=>element.Id==id,"User,Product");
+            var res = await unitOfWorkRepository.orderRepository.GetByCondition(element=>element.Id==id,"User,Product");
             if (res == null)
             {
                 return NotFound();
@@ -104,7 +106,7 @@ namespace E_Commerce.Controllers
                 ProductId = Order.ProductId,
                 UserId = Order.UserId,
             };
-            var res = await OrderRepository.Update(ord);
+            var res = await unitOfWorkRepository.orderRepository.Update(ord);
             if (res == null)
             {
                 return NotFound();
@@ -117,12 +119,12 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> DeleteOrder(Guid id)
         {
-            var res = await OrderRepository.GetByCondition(element => element.Id == id);
+            var res = await unitOfWorkRepository.orderRepository.GetByCondition(element => element.Id == id);
             if (res == null)
             {
                 return NotFound();
             }
-            await OrderRepository.DeleteAsync(res);
+            await unitOfWorkRepository.orderRepository.DeleteAsync(res);
             return Ok(res);
 
         }

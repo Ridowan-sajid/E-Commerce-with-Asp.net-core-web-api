@@ -11,17 +11,18 @@ namespace E_Commerce.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductRepository productRepository;
-        public ProductController(IProductRepository productRepository)
+        //private readonly IProductRepository productRepository;
+        private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        public ProductController(IUnitOfWorkRepository unitOfWorkRepository)
         {
-            this.productRepository = productRepository;
+            this.unitOfWorkRepository = unitOfWorkRepository;
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct([FromBody] Product product)
         {
-            var res = await productRepository.CreateAsync(product);
+            var res = await unitOfWorkRepository.productRepository.CreateAsync(product);
 
             return Ok(res);
         }
@@ -31,7 +32,7 @@ namespace E_Commerce.Controllers
 
         public async Task<IActionResult> GetAllProduct()
         {
-            var res = await productRepository.GetAll();
+            var res = await unitOfWorkRepository.productRepository.GetAll();
             if (res == null)
             {
                 return NotFound();
@@ -44,7 +45,7 @@ namespace E_Commerce.Controllers
         //[Authorize(Roles = "User")]
         public async Task<IActionResult> GetProductById(Guid id)
         {
-            var res = await productRepository.GetByCondition(element=>element.Id==id);
+            var res = await unitOfWorkRepository.productRepository.GetByCondition(element=>element.Id==id);
             if (res == null)
             {
                 return NotFound();
@@ -56,7 +57,7 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProduct(Product product)
         {
-            var res = await productRepository.Update(product);
+            var res = await unitOfWorkRepository.productRepository.Update(product);
             if (res == null)
             {
                 return NotFound();
@@ -69,12 +70,12 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var res = await productRepository.GetByCondition(element=>element.Id==id);
+            var res = await unitOfWorkRepository.productRepository.GetByCondition(element=>element.Id==id);
             if (res == null)
             {
                 return NotFound();
             }
-            await productRepository.DeleteAsync(res);
+            await unitOfWorkRepository.productRepository.DeleteAsync(res);
             return Ok(res);
 
         }
