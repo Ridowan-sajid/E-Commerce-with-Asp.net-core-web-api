@@ -10,7 +10,7 @@ namespace ECommerce.DAL.Repository.IRepository
     {
         IOrderRepository orderRepository { get; }
         IProductRepository productRepository { get; }
-        //IUserRepository userRepository { get; }
+        IUserRepository userRepository { get; }
         void save();
         
     }

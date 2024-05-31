@@ -54,7 +54,7 @@ namespace ECommerce.DAL.Repository
         {
             var applicationUser = new ApplicationUser
             {
-                UserName = registerDto.FirstName,
+                UserName = registerDto.Email,
                 Email = registerDto.Email,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,

@@ -87,6 +87,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     //options.SignIn.RequireConfirmedAccount = true;
     options.Tokens.EmailConfirmationTokenProvider = "E-Commerce";
+    options.User.RequireUniqueEmail = true;
+
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>("E-Commerce")

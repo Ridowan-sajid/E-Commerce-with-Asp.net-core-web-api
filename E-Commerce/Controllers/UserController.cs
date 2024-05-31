@@ -13,17 +13,17 @@ namespace E_Commerce.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly IUnitOfWorkRepository unitOfWorkRepository;
+        public UserController(IUnitOfWorkRepository unitOfWorkRepository)
         {
-            _userRepository = userRepository;
+            this.unitOfWorkRepository = unitOfWorkRepository;
         }
 
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterCustomerDto registerDto)
         {
-            var response = await _userRepository.Register(registerDto);
+            var response = await unitOfWorkRepository.userRepository.Register(registerDto);
 
             if (response != null)
             {
@@ -39,7 +39,7 @@ namespace E_Commerce.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto login)
         {
-            var response = await _userRepository.Login(login);
+            var response = await unitOfWorkRepository.userRepository.Login(login);
 
             if (response!=null)
             {
@@ -51,11 +51,11 @@ namespace E_Commerce.Controllers
             }
         }
         [HttpGet]
-        [Route("order")]
+        [Route("AllUsers")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetAllOrders()
+        public async Task<IActionResult> GetAllUserDeails()
         {
-            var res = await _userRepository.GetAllOrder();
+            var res = await unitOfWorkRepository.userRepository.GetAllOrder();
             if (res == null)
             {
                 return NotFound();
@@ -69,7 +69,7 @@ namespace E_Commerce.Controllers
         public async Task<IActionResult> GetAOrders(string Id)
         {
             //var res = await _userRepository.GetAOrder(Id);
-            var res = await _userRepository.GetByCondition(element => element.Id == Id,"Orders");
+            var res = await unitOfWorkRepository.userRepository.GetByCondition(element => element.Id == Id,"Orders");
             if (res == null)
             {
                 return NotFound();
