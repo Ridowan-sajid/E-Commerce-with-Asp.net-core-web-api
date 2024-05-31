@@ -100,5 +100,20 @@ namespace ECommerce.DAL.Repository
 
         }
 
+        public async Task<ApplicationUser> ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(changePasswordDto.Email);
+            if (user != null)
+            {
+                var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword,changePasswordDto.NewPassword);
+                if (result.Succeeded)
+                {
+                    return user;
+                }
+
+            }
+            return null;
+        }
+
     }
 }

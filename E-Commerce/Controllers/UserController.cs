@@ -50,6 +50,21 @@ namespace E_Commerce.Controllers
                 return BadRequest("There is something wrong.");
             }
         }
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePassword)
+        {
+            var response = await unitOfWorkRepository.userRepository.ChangePassword(changePassword);
+
+            if (response != null)
+            {
+                return Ok("Successfully Changed Password");
+            }
+            else
+            {
+                return BadRequest("There is something wrong.");
+            }
+        }
         [HttpGet]
         [Route("AllUsers")]
         [Authorize(Roles = "Admin")]
