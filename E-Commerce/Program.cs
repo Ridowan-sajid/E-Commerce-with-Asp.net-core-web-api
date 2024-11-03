@@ -1,3 +1,4 @@
+using E_Commerce.Middlewares;
 using ECommerce.DAL.Repository;
 using ECommerce.DAL.Repository.IRepository;
 using ECommerce.Models.EntityModels;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -28,6 +30,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+///Adding Serlog
+var logger = new LoggerConfiguration().WriteTo.Console().WriteTo.File("log-.txt",rollingInterval: RollingInterval.Hour).MinimumLevel.Error().CreateLogger();
 
 //1. Add Token auth in swagger
 //builder.Services.AddSwaggerGen(options =>
@@ -72,6 +78,7 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
 
 
 //Add DI  
@@ -123,6 +130,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Adding middleware as service
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 // 3.Add Authentication
 app.UseAuthentication();

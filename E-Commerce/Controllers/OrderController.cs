@@ -14,9 +14,12 @@ namespace E_Commerce.Controllers
     {
         //private readonly IOrderRepository OrderRepository;
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        public OrderController(IUnitOfWorkRepository unitOfWorkRepository)
+        private readonly ILogger<OrderController> logger;
+
+        public OrderController(IUnitOfWorkRepository unitOfWorkRepository,ILogger<OrderController> logger)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -56,12 +59,21 @@ namespace E_Commerce.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllOrderWithUserProduct()
         {
-            var res = await unitOfWorkRepository.orderRepository.GetAllWithUserAndProduct();
-            if (res == null)
+            try
             {
-                return NotFound();
+                throw new Exception("Man made Exception");
+               // logger.LogWarning("Get me through first");
+                var res = await unitOfWorkRepository.orderRepository.GetAllWithUserAndProduct();
+                if (res == null)
+                {
+                    return NotFound();
+                }
+                return Ok(res);
+            }catch (Exception ex) {
+                //logger.LogError(ex,ex.Message);
+                throw;
             }
-            return Ok(res);
+  
 
         }
         [HttpGet]
