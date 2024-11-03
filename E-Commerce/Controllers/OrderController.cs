@@ -61,7 +61,7 @@ namespace E_Commerce.Controllers
         {
             try
             {
-                throw new Exception("Man made Exception");
+                //throw new Exception("Man made Exception");
                // logger.LogWarning("Get me through first");
                 var res = await unitOfWorkRepository.orderRepository.GetAllWithUserAndProduct();
                 if (res == null)
