@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using E_Commerce.Middlewares;
 using ECommerce.DAL.Repository;
 using ECommerce.DAL.Repository.IRepository;
@@ -80,7 +81,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-
 //Add DI  
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
@@ -121,7 +121,22 @@ builder.Services.AddAuthentication(options => {
 
     });
 
-
+//Adding Versioning
+var apiVersioningBuilder = builder.Services.AddApiVersioning(o =>
+{
+    o.AssumeDefaultVersionWhenUnspecified = true;
+    o.DefaultApiVersion = new ApiVersion(1, 0);
+    o.ReportApiVersions = true;
+    o.ApiVersionReader = ApiVersionReader.Combine(
+        new QueryStringApiVersionReader("api-version"),
+        new HeaderApiVersionReader("X-Version"),
+        new UrlSegmentApiVersionReader());
+}).AddApiExplorer(
+    options =>
+    {
+        options.GroupNameFormat = "'v'VVV";
+        options.SubstituteApiVersionInUrl = true;
+    });
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
