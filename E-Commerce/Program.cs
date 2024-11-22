@@ -87,6 +87,7 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWork>();
+builder.Services.AddScoped<IRedisCacheRepository, RedisCacheRepository>();
 builder.Services.AddDbContext<ApplicationDbContext>();
 
 //Add Identity services
@@ -137,6 +138,14 @@ var apiVersioningBuilder = builder.Services.AddApiVersioning(o =>
         options.GroupNameFormat = "'v'VVV";
         options.SubstituteApiVersionInUrl = true;
     });
+
+//Adding Redis
+builder.Services.AddStackExchangeRedisCache((e) =>
+{
+    e.Configuration = builder.Configuration.GetConnectionString("RedisConn");
+    e.InstanceName = "redisTest";
+});
+
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

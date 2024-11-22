@@ -43,6 +43,16 @@ namespace ECommerce.DAL.Repository
             return await _dbSet.ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllPagination(string? filterOn=null,string? filterQuery=null,bool? isAssending=true,int pageNumber=1,int pageSize=1000)
+        {
+            //filtering
+            if(string.IsNullOrEmpty(filterOn)==false && string.IsNullOrEmpty(filterQuery) == false)
+            {
+
+            }
+            return await _dbSet.ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> GetListByCondition(Expression<Func<T, bool>> expression=null, string? includeProperties = null)
         {
             IQueryable<T> query = _dbSet.Where(expression);

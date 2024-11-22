@@ -13,9 +13,11 @@ namespace E_Commerce.Controllers
     {
         //private readonly IProductRepository productRepository;
         private readonly IUnitOfWorkRepository unitOfWorkRepository;
-        public ProductController(IUnitOfWorkRepository unitOfWorkRepository)
+        private readonly IRedisCacheRepository redisCacheRepository;
+        public ProductController(IUnitOfWorkRepository unitOfWorkRepository,IRedisCacheRepository cacheRepository)
         {
             this.unitOfWorkRepository = unitOfWorkRepository;
+            this.redisCacheRepository = cacheRepository;
         }
 
         [HttpPost]
@@ -32,11 +34,17 @@ namespace E_Commerce.Controllers
 
         public async Task<IActionResult> GetAllProduct()
         {
+            var cache = redisCacheRepository.GetData<IEnumerable<Product>>("product");
+            if(cache != null)
+            {
+                return Ok(cache);
+            }
             var res = await unitOfWorkRepository.productRepository.GetAll();
             if (res == null)
             {
                 return NotFound();
             }
+            redisCacheRepository.SetData("product",res);
             return Ok(res);
 
         }
